@@ -95,11 +95,11 @@ require(['jquery',
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
 
       if (window.location.hash == "#early-voting" && earlyPollCards.hasInitialized()) {
-        //mapService.displayEarlyPollingMarkers();
-        earlyPollCards.displayMarkers();
+        mapService.displayEarlyPollingMarkers();
+       // earlyPollCards.showMarkers();
       } else if (window.location.hash == "#election-day" && earlyPollCards.hasInitialized()) {
-        //mapService.displayUserPollingPlace();
-        earlyPollCards.hideMarkers();
+        mapService.displayUserPollingPlace();
+        //earlyPollCards.hideMarkers();
       }
 
     });
@@ -109,10 +109,10 @@ require(['jquery',
     
     window.onload = function(){
       
-        if(!window.location.hash == "#early-voting"){
+        if(window.location.hash == "#early-voting"){
             earlyPollCards.init().hideMarkers();
         }else{
-            earlyPollCards.init();
+            earlyPollCards.init().hideMarkers();
         }
 
     };
