@@ -74,8 +74,8 @@ require.config({
 
 require(['jquery',
         'early_voting_mgr', 'polling_location_finder', 'map_service',
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
-        function($, earlyVotingManager, findPollingLocationFor, mapService, earlyPollingJSON) {
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'early_poll_cards'],
+        function($, earlyVotingManager, findPollingLocationFor, mapService, earlyPollingJSON, earlyPollCards) {
     'use strict';
 
 
@@ -94,17 +94,28 @@ require(['jquery',
       $('.cambridge-tabs a').parent().removeClass("active");
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
 
-      if (window.location.hash == "#early-voting") {
-
-        mapService.displayEarlyPollingMarkers();
-      } else if (window.location.hash == "#election-day") {
-
-        mapService.displayUserPollingPlace();
+      if (window.location.hash == "#early-voting" && earlyPollCards.hasInitialized()) {
+        //mapService.displayEarlyPollingMarkers();
+        earlyPollCards.displayMarkers();
+      } else if (window.location.hash == "#election-day" && earlyPollCards.hasInitialized()) {
+        //mapService.displayUserPollingPlace();
+        earlyPollCards.hideMarkers();
       }
 
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
+    
+    
+    window.onload = function(){
+      
+        if(!window.location.hash == "#early-voting"){
+            earlyPollCards.init().hideMarkers();
+        }else{
+            earlyPollCards.init();
+        }
+
+    };
 
 
     earlyVotingManager.init();

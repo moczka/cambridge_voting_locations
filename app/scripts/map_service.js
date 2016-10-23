@@ -173,5 +173,6 @@ define(['geojson',
             displayDirections(latLng, destination, successCallback, errorCallback);
 
         },
+        googleMap : map
     };
 });
